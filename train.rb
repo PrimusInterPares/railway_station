@@ -30,10 +30,12 @@ class Train
     @@trains.find { |train| train.number == number }
   end
 
+  NUMBER_FORMAT = /^[a-zа-яё0-9]{2}-?[a-zа-яё0-9]{2}$/i
   START_SPEED = 0
 
   def initialize(number)
     @number = number.to_s
+    valid?
     @carriages = []
     @speed = START_SPEED
     @current_station = nil
@@ -65,10 +67,29 @@ class Train
     @current_station = route.previous_station(current_station) if !current_station.nil? && !route.first?(current_station)
   end
 
+  def valid?
+    validate!
+    true
+  rescue RuntimeError
+    false
+  end
+
   protected
 
   attr_accessor :speed, :number_of_carriages, :carriages
   attr_writer :current_station
+
+  def validate!
+    if number !~ NUMBER_FORMAT
+      puts 'Формат номера задан неверно!'
+      puts 'Допустимый формат: XX-XX или XXXX, где Х любая буква или цифра'
+      raise RuntimeError
+    end
+    if number.length < 4
+      puts 'Номер поезда должен содержать не менее 4 символов'
+      raise RuntimeError
+    end
+  end
 
   private
 
