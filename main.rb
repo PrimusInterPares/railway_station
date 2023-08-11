@@ -43,14 +43,21 @@ class Main
   end
 
   def create_station
-    print 'Введите имя станции: '
-    name = gets.chomp
+    attempt = 0
+    begin
+      print 'Введите имя станции (от 3 до 15 символов): '
+      name = gets.chomp
 
-    return puts 'Такая станция уже существует.' if stations.find { |elem| elem.name == name }
+      stations.push(Station.new(name))
 
-    stations.push(Station.new(name))
+      print "Создана станция #{stations.last.name}.\n"
+    rescue RuntimeError
+      attempt += 1
+      puts 'Попытайтесь еще раз.'
+      retry if attempt < 3
+    end
 
-    print "Создана станция #{stations.last.name}.\n"
+    puts 'Исчерпано количество попыток создать станцию.' if attempt == 3
   end
 
   def create_train
@@ -98,9 +105,8 @@ class Main
       puts 'Попытайтесь еще раз.'
       retry if attempt < 3
     end
-    if attempt == 3
-      puts 'Исчерпано количество попыток создать поезд.'
-    end
+
+    puts 'Исчерпано количество попыток создать поезд.' if attempt == 3
   end
 
   def create_route
