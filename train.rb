@@ -82,11 +82,11 @@ class Train
   def validate!
     if number !~ NUMBER_FORMAT
       puts 'Формат номера задан неверно!'
-      puts 'Допустимый формат: XX-XX или XXXX, где Х любая буква или цифра'
+      puts 'Допустимый формат: XX-XX или XXXX, где Х любая буква или цифра.'
       raise RuntimeError
     end
     if number.length < 4
-      puts 'Номер поезда должен содержать не менее 4 символов'
+      puts 'Номер поезда должен содержать не менее 4 символов.'
       raise RuntimeError
     end
   end
