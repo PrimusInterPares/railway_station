@@ -40,7 +40,6 @@ class Main
     @trains = []
     @stations = []
     @route = nil
-    @carriages = []
   end
 
   def create_station
@@ -55,14 +54,53 @@ class Main
   end
 
   def create_train
-    print 'Введите номер поезда: '
-    number = gets.chomp
+    attempt = 0
+    begin
+      print 'Введите номер поезда в формате XX-XX или XXXX, где Х любая буква или цифра: '
+      number = gets.chomp
 
-    return puts 'Такой поезд уже существует.' if trains.find { |elem| elem.number == number }
+      return puts 'Такой поезд уже существует.' if trains.find { |elem| elem.number == number }
 
-    trains.push(Train.new(number))
+      print 'Введите тип поезда (\'грузовой\' или \'пассажирский\'): '
+      type = gets.chomp
 
-    print "Поезд #{trains.last.number} создан.\n"
+      print 'Введите количество вагонов: '
+      carriages = gets.chomp.to_i
+
+      if type == 'грузовой'
+        train = CargoTrain.new(number)
+
+        1.upto(carriages) do
+          carriage = CargoCarriage.new
+          train.attach_carriage(carriage)
+        end
+
+        trains.push(train)
+        
+        print "Создан поезд №#{trains.last.number}, тип #{type}, #{carriages} вагонов.\n"
+      elsif type == 'пассажирский'
+        train = PassengerTrain.new(number)
+
+        1.upto(carriages) do
+          carriage = PassengerCarriage.new
+          train.attach_carriage(carriage)
+        end
+
+        trains.push(train)
+
+        print "Создан поезд №#{trains.last.number}, тип #{type}, #{carriages} вагонов.\n"
+      else
+        puts 'Неверный тип вагона.'
+        raise RuntimeError
+      end
+    rescue RuntimeError
+      attempt += 1
+      puts 'Попытайтесь еще раз.'
+      retry if attempt < 3
+    end
+    if attempt == 3
+      puts 'Исчерпано количество попыток создать поезд.'
+    end
   end
 
   def create_route
