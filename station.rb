@@ -15,12 +15,16 @@ class Station
 
   @@stations = []
 
+  MIN_NAME_LENGTH = 3
+  MAX_NAME_LENGTH = 15
+
   def self.all
     stations
   end
 
   def initialize(name)
     @name = name.to_s
+    valid?
     @train_list = []
     register_instance
     @@stations.push(self)
@@ -39,7 +43,25 @@ class Station
     train_list.delete(train) if trains.include?(train)
   end
 
+  def valid?
+    validate!
+    true
+  rescue RuntimeError
+    false
+  end
+
   protected
+
+  def validate!
+    if name.length < MIN_NAME_LENGTH
+      puts "Имя станции не должно быть меньше #{MIN_NAME_LENGTH} символов."
+      raise RuntimeError
+    end
+    if name.length > MAX_NAME_LENGTH
+      puts "Имя станции не должно превышать #{MAX_NAME_LENGTH} символов."
+      raise RuntimeError
+    end
+  end
 
   attr_reader :train_list
 end
