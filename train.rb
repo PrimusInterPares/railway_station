@@ -35,7 +35,7 @@ class Train
 
   def initialize(number)
     @number = number.to_s
-    valid?
+    validate!
     @carriages = []
     @speed = START_SPEED
     @current_station = nil
@@ -67,17 +67,19 @@ class Train
     @current_station = route.previous_station(current_station) if !current_station.nil? && !route.first?(current_station)
   end
 
-  def valid?
-    validate!
-    true
-  rescue RuntimeError
-    false
-  end
+  # def valid?
+  #   validate!
+  #   true
+  # rescue RuntimeError
+  #   false
+  # end
 
   protected
 
   attr_accessor :speed, :number_of_carriages, :carriages
   attr_writer :current_station
+
+  private
 
   def validate!
     if number !~ NUMBER_FORMAT
@@ -90,8 +92,6 @@ class Train
       raise RuntimeError
     end
   end
-
-  private
 
   def accelerate
     speed.succ
