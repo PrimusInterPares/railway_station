@@ -1,4 +1,4 @@
-class Cargo_carriage
+class CargoCarriage
   include Manufacturer
 
   attr_reader :type
