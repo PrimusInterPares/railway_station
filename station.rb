@@ -70,7 +70,7 @@ class Station
       raise RuntimeError
     end
     @@all_stations.each do |station|
-      if station.name == @name
+      if station.name == name
         puts 'Станция с таким названием уже существует.'
         raise RuntimeError
       end
