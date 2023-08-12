@@ -27,10 +27,10 @@ class Train
   attr_reader :number, :route, :current_station
   attr_accessor :type
 
-  @@trains = []
+  @@all_trains = []
 
   def self.find(number)
-    @@trains.find { |train| train.number == number }
+    @@all_trains.find { |train| train.number == number }
   end
 
   NUMBER_FORMAT = /^[a-zа-яё0-9]{2}-?[a-zа-яё0-9]{2}$/i
@@ -43,7 +43,7 @@ class Train
     @speed = START_SPEED
     @current_station = nil
     register_instance
-    @@trains.push(self)
+    @@all_trains.push(self)
   end
 
   def attach_carriage(carriage)
@@ -89,8 +89,16 @@ class Train
       puts 'Допустимый формат: XX-XX или XXXX, где Х любая буква или цифра.'
       raise RuntimeError
     end
-    puts 'Номер поезда должен содержать не менее 4 символов.' if number.length < 4
-    raise RuntimeError
+    if number.length < 4
+      puts 'Номер поезда должен содержать не менее 4 символов.'
+      raise RuntimeError
+    end
+    @@all_trains.each do |train|
+      if train.number == number
+        puts 'Поезд с таким номером уже существует.'
+        raise RuntimeError
+      end
+    end
   end
 
   def accelerate
