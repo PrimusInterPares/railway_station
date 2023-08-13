@@ -7,9 +7,8 @@
 # пассажирские, к грузовому - грузовые.
 # При добавлении вагона к поезду, объект вагона должен передаваться как аргумент метода и сохраняться во внутреннем массиве поезда,
 # в отличие от предыдущего задания, где мы считали только кол-во вагонов. Параметр конструктора "кол-во вагонов" при этом можно удалить.
-
+# -----------------------------------------------------
 # Добавить текстовый интерфейс:
-
 # Создать программу в файле main.rb, которая будет позволять пользователю через текстовый интерфейс делать следующее:
 #      - Создавать станции
 #      - Создавать поезда
@@ -19,6 +18,21 @@
 #      - Отцеплять вагоны от поезда
 #      - Перемещать поезд по маршруту вперед и назад
 #      - Просматривать список станций и список поездов на станции
+# ------------------------------------------------------
+# Если нет интерфейса, то в отдельном файле, например, main.rb написать код, который:
+# Создает тестовые данные (станции, поезда, вагоны) и связывает их между собой.
+# Используя созданные в рамках задания методы, написать код, который перебирает последовательно все станции
+# и для каждой станции выводит список поездов в формате:
+#       - Номер поезда, тип, кол-во вагонов
+#    А для каждого поезда на станции выводить список вагонов в формате:
+#       - Номер вагона (можно назначать автоматически), тип вагона, кол-во свободных
+# и занятых мест (для пассажирского вагона) или кол-во свободного и занятого объема (для грузовых вагонов).
+
+# Если у вас есть интерфейс, то добавить возможности:
+# При создании вагона указывать кол-во мест или общий объем, в зависимости от типа вагона
+# Выводить список вагонов у поезда (в указанном выше формате), используя созданные методы
+# Выводить список поездов на станции (в указанном выше формате), используя  созданные методы
+# Занимать место или объем в вагоне
 
 require 'pry'
 
@@ -66,8 +80,6 @@ class Main
       print 'Введите номер поезда в формате XX-XX или XXXX, где Х любая буква или цифра: '
       number = gets.chomp
 
-      return puts 'Такой поезд уже существует.' if trains.find { |elem| elem.number == number }
-
       print 'Введите тип поезда (\'грузовой\' или \'пассажирский\'): '
       type = gets.chomp
 
@@ -75,10 +87,13 @@ class Main
       carriages = gets.chomp.to_i
 
       if type == 'грузовой'
+        print 'Введите объем вагонов: '
+        volume = gets.chomp.to_i
+
         train = CargoTrain.new(number)
 
         1.upto(carriages) do
-          carriage = CargoCarriage.new
+          carriage = CargoCarriage.new(volume)
           train.attach_carriage(carriage)
         end
 
@@ -86,10 +101,13 @@ class Main
         
         print "Создан поезд №#{trains.last.number}, тип #{type}, #{carriages} вагонов.\n"
       elsif type == 'пассажирский'
+        print 'Введите количество мест в вагонах: '
+        number_of_seats = gets.chomp.to_i
+
         train = PassengerTrain.new(number)
 
         1.upto(carriages) do
-          carriage = PassengerCarriage.new
+          carriage = PassengerCarriage.new(number_of_seats)
           train.attach_carriage(carriage)
         end
 
@@ -150,7 +168,7 @@ class Main
     return  puts 'Маршрут не создан.' if route.nil?
 
     print 'Введите номер поезда: '
-    train_number = gets.chomp
+    train_number = gets.chomp.to_i
 
     train = trains.find { |elem| elem.number == train_number }
     return  puts 'Нет такого поезда.' if train.nil?
@@ -161,22 +179,46 @@ class Main
   end
 
   def attach_carriage_to_train
-    print 'Введите номер поезда: '
-    train_number = gets.chomp
+    attempt = 0
+    begin
+      print 'Введите номер поезда: '
+      train_number = gets.chomp.to_i
 
     train = trains.find { |elem| elem.number == train_number }
     return puts 'Нет такого поезда.' if train.nil?
 
-    carriage = Carriage.new
-    train.attach_carriage(carriage)
+      case train.type
+      when 'cargo'
+        print 'Введите объем грузового вагона: '
+        volume = gets.chomp.to_i
+        carriage = CargoCarriage.new(volume)
+      when 'passenger'
+        print 'Введите количество мест в пассажирском вагоне: '
+        seats = gets.chomp.to_i
+        carriage = PassengerCarriage.new(seats)
+      else
+        puts 'Неверный тип вагона.'
+        raise RuntimeError
+      end
+
+      train.attach_carriage(carriage)
+    rescue RuntimeError
+      attempt += 1
+      puts 'Попытайтесь еще раз.'
+      retry if attempt < 3
+    end
+
+    puts 'Исчерпано количество попыток прицепить вагон к поезду.' if attempt == 3
   end
 
   def uncouple_carriage_from_train
     print 'Введите номер поезда: '
-    train_number = gets.chomp
+    train_number = gets.chomp.to_i
 
     train = trains.find { |elem| elem.number == train_number }
     puts 'Нет такого поезда.' if train.nil?
+
+    train.uncouple_carriage
   end
 
   def move_train_forward
