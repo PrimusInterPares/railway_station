@@ -170,7 +170,7 @@ class Main
     print 'Введите номер поезда: '
     train_number = gets.chomp.to_i
 
-    train = trains.find { |elem| elem.number == train_number }
+    train = trains.find { |elem| elem.find(train_number) }
     return  puts 'Нет такого поезда.' if train.nil?
 
     train.route = route
@@ -184,8 +184,8 @@ class Main
       print 'Введите номер поезда: '
       train_number = gets.chomp.to_i
 
-    train = trains.find { |elem| elem.number == train_number }
-    return puts 'Нет такого поезда.' if train.nil?
+      train = trains.find { |elem| elem.find(train_number) }
+      return puts 'Нет такого поезда.' if train.nil?
 
       case train.type
       when 'cargo'
@@ -215,7 +215,7 @@ class Main
     print 'Введите номер поезда: '
     train_number = gets.chomp.to_i
 
-    train = trains.find { |elem| elem.number == train_number }
+    train = trains.find { |elem| elem.find(train_number) }
     puts 'Нет такого поезда.' if train.nil?
 
     train.uncouple_carriage
