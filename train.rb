@@ -52,8 +52,8 @@ class Train
 
   MIN_CARRIAGE_NUMBER = 0
 
-  def uncouple_carriage(carriage)
-    @carriages.delete(carriage) if speed.zero? && number_of_carriages != MIN_CARRIAGE_NUMBER && carriages.empty?
+  def uncouple_carriage
+    @carriages.delete_at(-1) if speed.zero? && number_of_carriages != MIN_CARRIAGE_NUMBER && carriages.empty?
   end
 
   def route=(route)
@@ -62,11 +62,19 @@ class Train
   end
 
   def move_to_next_station
-    @current_station = route.next_station(current_station) if !current_station.nil? && !route.last?(current_station)
+    if !current_station.nil? && !route.last?(current_station)
+      current_station.send_train(self)
+      @current_station = route.next_station(current_station)
+      current_station.train_list = self
+    end
   end
 
   def move_to_previous_station
-    @current_station = route.previous_station(current_station) if !current_station.nil? && !route.first?(current_station)
+    if !current_station.nil? && !route.first?(current_station)
+      current_station.send_train(self)
+      @current_station = route.previous_station(current_station)
+      current_station.train_list = self
+    end
   end
 
   # def valid?
