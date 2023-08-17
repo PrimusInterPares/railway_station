@@ -46,12 +46,9 @@ class Station
     train_list.delete(train) if trains.include?(train)
   end
 
-  # def valid?
-  #   validate!
-  #   true
-  # rescue RuntimeError
-  #   false
-  # end
+  def each_train(&block)
+    train_list.each { |train| block.call(train) } if block_given?
+  end
 
   protected
 
