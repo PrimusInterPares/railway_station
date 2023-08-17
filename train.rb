@@ -33,6 +33,7 @@ class Train
     @@all_trains.find { |train| train.number == number }
   end
 
+  MIN_CARRIAGE_NUMBER = 0
   NUMBER_FORMAT = /^[a-zа-яё0-9]{2}-?[a-zа-яё0-9]{2}$/i
   START_SPEED = 0
 
@@ -49,8 +50,6 @@ class Train
   def attach_carriage(carriage)
     @carriages.push(carriage) if type == carriage.type && speed.zero?
   end
-
-  MIN_CARRIAGE_NUMBER = 0
 
   def uncouple_carriage
     @carriages.delete_at(-1) if speed.zero? && number_of_carriages != MIN_CARRIAGE_NUMBER && carriages.empty?
@@ -77,12 +76,18 @@ class Train
     end
   end
 
-  # def valid?
-  #   validate!
-  #   true
-  # rescue RuntimeError
-  #   false
-  # end
+  def accelerate
+    speed.succ
+  end
+
+  def brake
+    speed.pred
+    self.speed = 0 if speed.negative?
+  end
+
+  def each_carriage(&block)
+    carriages.each { |carriage| block.call(carriage) } if block_given?
+  end
 
   protected
 
@@ -107,15 +112,6 @@ class Train
         raise RuntimeError
       end
     end
-  end
-
-  def accelerate
-    speed.succ
-  end
-
-  def brake
-    speed.pred
-    self.speed = 0 if speed.negative?
   end
 
   def next_station
