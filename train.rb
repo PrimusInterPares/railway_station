@@ -39,7 +39,7 @@ class Train
   @@all_trains = []
 
 
-  
+
   def self.find(number)
     @@all_trains.find { |train| train.number == number }
   end

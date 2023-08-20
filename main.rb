@@ -186,7 +186,7 @@ class Main
     attempt = 0
     begin
       print 'Введите номер поезда: '
-      train_number = gets.chomp.to_i
+      train_number = gets.chomp
 
       train = trains.find { |elem| elem.find(train_number) }
       return puts 'Нет такого поезда.' if train.nil?
@@ -206,6 +206,7 @@ class Main
       end
 
       train.attach_carriage(carriage)
+      puts 'Вагон прицеплен.'
     rescue RuntimeError
       attempt += 1
       puts 'Попытайтесь еще раз.'
@@ -217,12 +218,13 @@ class Main
 
   def uncouple_carriage_from_train
     print 'Введите номер поезда: '
-    train_number = gets.chomp.to_i
+    train_number = gets.chomp
 
     train = trains.find { |elem| elem.find(train_number) }
     puts 'Нет такого поезда.' if train.nil?
 
     train.uncouple_carriage
+    puts 'Вагон отцеплен.'
   end
 
   def move_train_forward
