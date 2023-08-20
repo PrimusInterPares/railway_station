@@ -5,6 +5,8 @@
 # Добавить метод, который возвращает кол-во занятых мест в вагоне
 # Добавить метод, возвращающий кол-во свободных мест в вагоне.
 
+require_relative 'carriage'
+
 class PassengerCarriage < Carriage
   include Manufacturer
 
