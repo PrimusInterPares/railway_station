@@ -98,7 +98,7 @@ class Main
         end
 
         trains.push(train)
-        
+
         print "Создан поезд №#{trains.last.number}, тип #{type}, #{carriages} вагонов.\n"
       elsif type == 'пассажирский'
         print 'Введите количество мест в вагонах: '
