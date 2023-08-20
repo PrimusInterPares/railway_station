@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'train'
+
 class PassengerTrain < Train
   include InstanceCounter
+
   TYPE = :passenger
 
   def initialize(number)
