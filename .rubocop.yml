@@ -21,7 +21,7 @@ Metrics/LineLength:
   Max: 120
 
 Metrics/MethodLength:
-  Max: 10
+  Max: 20
 
 Metrics/PerceivedComplexity:
   Max: 12

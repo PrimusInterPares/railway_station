@@ -1,4 +1,7 @@
-# Создать модуль, который позволит указывать название компании-производителя и получать его. Подключить модуль к классам Вагон и Поезд
+# frozen_string_literal: true
+
+# Создать модуль, который позволит указывать название компании-производителя и получать его.
+# Подключить модуль к классам Вагон и Поезд
 
 module Manufacturer
   def manufacturer_name=(name)
@@ -6,7 +9,7 @@ module Manufacturer
   end
 
   def manufacturer_name
-    self.name
+    name
   end
 
   protected

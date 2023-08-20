@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Добавить атрибут общего кол-ва мест (задается при создании вагона)
 # Добавить метод, который "занимает места" в вагоне (по одному за раз)
 # Добавить метод, который возвращает кол-во занятых мест в вагоне
@@ -28,10 +30,12 @@ class PassengerCarriage < Carriage
 
   private
 
+  # rubocop:disable Style/GuardClause
   def validate!
     if seats.negative?
       puts 'Количество мест в вагоне не может быть отрицательным.'
       raise RuntimeError
     end
   end
+  # rubocop:enable Style/GuardClause
 end

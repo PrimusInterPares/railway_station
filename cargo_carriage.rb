@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Добавить атрибут общего объема (задается при создании вагона)
 # Добавить метод, которые "занимает объем" в вагоне (объем указывается в качестве параметра метода)
 # Добавить метод, который возвращает занятый объем
@@ -28,6 +30,7 @@ class CargoCarriage < Carriage
 
   private
 
+  # rubocop:disable Style/GuardClause
   def validate!
     if volume.zero?
       puts 'Объем вагона не может быть равен 0.'
@@ -39,4 +42,5 @@ class CargoCarriage < Carriage
       raise RuntimeError
     end
   end
+  # rubocop:enable Style/GuardClause
 end
