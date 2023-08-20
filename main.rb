@@ -192,11 +192,11 @@ class Main
       return puts 'Нет такого поезда.' if train.nil?
 
       case train.type
-      when 'cargo'
+      when :cargo
         print 'Введите объем грузового вагона: '
         volume = gets.chomp.to_i
         carriage = CargoCarriage.new(volume)
-      when 'passenger'
+      when :passenger
         print 'Введите количество мест в пассажирском вагоне: '
         seats = gets.chomp.to_i
         carriage = PassengerCarriage.new(seats)
