@@ -2,21 +2,26 @@ AllCops:
   RubyInterpreters:
     - ruby
 
+Lint/Debugger:
+   Enabled: true
 
-Style/FrozenStringLiteralComment:
+Metrics/AbcSize:
+  Max: 45
+
+Metrics/BlockLength:
+  Max: 40
+
+Metrics/BlockNesting:
+  Max: 4
+
+Metrics/CyclomaticComplexity:
   Enabled: true
-
-Style/GuardClause:
-  Enabled: true
-
-Style/Documentation:
-  Enabled: false
-
-Metrics/MethodLength:
-  Max: 10
 
 Metrics/LineLength:
   Max: 120
+
+Metrics/MethodLength:
+  Max: 10
 
 Metrics/PerceivedComplexity:
   Max: 12
@@ -24,14 +29,11 @@ Metrics/PerceivedComplexity:
 Style/ClassVars:
   Enabled: false
 
-Metrics/AbcSize:
-  Max: 45
+Style/Documentation:
+  Enabled: false
 
-Metrics/CyclomaticComplexity:
+Style/FrozenStringLiteralComment:
   Enabled: true
 
-Metrics/BlockLength:
-  Max: 40
-
-Metrics/BlockNesting:
-  Max: 4
+Style/GuardClause:
+  Enabled: true
