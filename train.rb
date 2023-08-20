@@ -31,15 +31,18 @@ class Train
   attr_reader :number, :route, :current_station
   attr_accessor :type
 
-  @@all_trains = []
-
-  def self.find(number)
-    @@all_trains.find { |train| train.number == number }
-  end
-
+  TYPE = :unknown
   MIN_CARRIAGE_NUMBER = 0
   NUMBER_FORMAT = /^[a-zа-яё0-9]{2}-?[a-zа-яё0-9]{2}$/i
   START_SPEED = 0
+
+  @@all_trains = []
+
+
+  
+  def self.find(number)
+    @@all_trains.find { |train| train.number == number }
+  end
 
   def initialize(number)
     @number = number.to_s
@@ -47,6 +50,7 @@ class Train
     @carriages = []
     @speed = START_SPEED
     @current_station = nil
+    @type = TYPE
     register_instance
     @@all_trains.push(self)
   end
