@@ -5,7 +5,7 @@ class Carriage
 
   attr_reader :type
 
-  TYPE = :none
+  TYPE = :unknown
 
   def initialize
     @type = TYPE
