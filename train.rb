@@ -25,11 +25,13 @@
 require_relative 'instance_counter'
 require_relative 'manufacturer'
 require_relative 'accessors'
+require_relative 'validation'
 
 class Train
   include Manufacturer
   include InstanceCounter
   include Accessors
+  include Validation
 
   attr_reader :number, :route, :current_station
   attr_accessor :type
@@ -47,6 +49,9 @@ class Train
 
   def initialize(number)
     @number = number.to_s
+    self.class.clear
+    self.class.validate number, 'presence'
+    self.class.validate number, 'format', NUMBER_FORMAT
     validate!
     @carriages = []
     @speed = START_SPEED
@@ -107,23 +112,19 @@ class Train
 
   private
 
-  def validate!
-    if number !~ NUMBER_FORMAT
-      puts 'Формат номера задан неверно!'
-      puts 'Допустимый формат: XX-XX или XXXX, где Х любая буква или цифра.'
-      raise RuntimeError
-    end
-    if number.length < 4
-      puts 'Номер поезда должен содержать не менее 4 символов.'
-      raise RuntimeError
-    end
-    @@all_trains.each do |train|
-      if train.number == number
-        puts 'Поезд с таким номером уже существует.'
-        raise RuntimeError
-      end
-    end
-  end
+  # def validate!
+  #   # if number !~ NUMBER_FORMAT
+  #   #   puts 'Формат номера задан неверно!'
+  #   #   puts 'Допустимый формат: XX-XX или XXXX, где Х любая буква или цифра.'
+  #   #   raise RuntimeError
+  #   # end
+  #   @@all_trains.each do |train|
+  #     if train.number == number
+  #       puts 'Поезд с таким номером уже существует.'
+  #       raise RuntimeError
+  #     end
+  #   end
+  # end
 
   def next_station
     route.next_station(current_station) unless route.last?
