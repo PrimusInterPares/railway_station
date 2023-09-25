@@ -73,7 +73,7 @@ module Validation
 
     def validate_format(variable, format)
       unless variable =~ format
-        puts 'Формат номера задан неверно!'
+        puts "Формат @#{variable} задан неверно!"
         puts 'Допустимый формат: XX-XX или XXXX, где Х любая буква или цифра.'
         raise RuntimeError
       end
@@ -88,14 +88,14 @@ module Validation
 
     def validate_min_length(variable, min_length)
       if variable.length < min_length
-        puts "Имя станции не должно быть меньше #{min_length} символов."
+        puts "@#{variable} не должно быть меньше #{min_length} символов."
         raise RuntimeError
       end
     end
 
     def validate_max_length(variable, max_length)
       if variable.length > max_length
-        puts "Имя станции не должно превышать #{max_length} символов."
+        puts "@#{variable} не должно превышать #{max_length} символов."
         raise RuntimeError
       end
     end
