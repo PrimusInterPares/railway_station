@@ -40,7 +40,6 @@ class Train
   MIN_CARRIAGE_NUMBER = 0
   NUMBER_FORMAT = /^[a-zа-яё0-9]{2}-?[a-zа-яё0-9]{2}$/i
   START_SPEED = 0
-  MAX_TRAIN_NUMBER_LENGTH = 4
 
   @@all_trains = []
 
@@ -53,7 +52,6 @@ class Train
     self.class.clear
     self.class.validate number, 'presence'
     self.class.validate number, 'format', NUMBER_FORMAT
-    self.class.validate number, 'max_length', MAX_TRAIN_NUMBER_LENGTH
     validate!
     @carriages = []
     @speed = START_SPEED
@@ -118,10 +116,6 @@ class Train
   #   # if number !~ NUMBER_FORMAT
   #   #   puts 'Формат номера задан неверно!'
   #   #   puts 'Допустимый формат: XX-XX или XXXX, где Х любая буква или цифра.'
-  #   #   raise RuntimeError
-  #   # end
-  #   # if number.length < 4
-  #   #   puts 'Номер поезда должен содержать не менее 4 символов.'
   #   #   raise RuntimeError
   #   # end
   #   @@all_trains.each do |train|
