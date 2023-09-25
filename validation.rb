@@ -49,8 +49,8 @@ module Validation
     def validate!
       validations = self.class.instance_variable_get(:@validations)
       validations.each do |validation|
-        var_name = validation[:attribute]
-        send("validate_#{validation[:validation_type]}", validation[var_name], validation[:params])
+        puts validation
+        send("validate_#{validation[:validation_type]}", validation[:attribute], validation[:params])
       end
     end
 
