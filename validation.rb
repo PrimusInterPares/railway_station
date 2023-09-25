@@ -46,6 +46,43 @@ module Validation
   end
 
   module InstanceMethods
+    def validate!
+      validations = self.class.instance_variable_get(:@validations)
+      validations.each do |validation|
+        var_name = validation[:attribute]
+        send("validate_#{validation[:validation_type]}", validation[var_name], validation[:params])
+      end
+    end
 
+    def valid?
+      validate!
+    rescue RuntimeError => e
+      puts "Error: @#{e.message}"
+      false
+    else
+      true
+    end
+
+    def validate_presence(variable, _)
+      if variable.nil? || variable == ''
+        puts "Имя @#{variable} не может быть пустой строкой или nil"
+        raise RuntimeError
+      end
+    end
+
+    def validate_format(variable, format)
+      unless variable =~ format
+        puts 'Формат номера задан неверно!'
+        puts 'Допустимый формат: XX-XX или XXXX, где Х любая буква или цифра.'
+        raise RuntimeError
+      end
+    end
+
+    def validate_type(variable, type)
+      unless variable.is_a?(type)
+        puts 'Классы объектов не совпадают'
+        raise RuntimeError
+      end
+    end
   end
 end
