@@ -4,16 +4,14 @@
 
 # Содержит метод класса validate. Этот метод принимает в качестве параметров имя проверяемого атрибута,
 # а также тип валидации и при необходимости дополнительные параметры. Возможные типы валидаций:
-#    - presence - требует, чтобы значение атрибута было не nil и не пустой строкой. Пример использования:
-
+#  - presence - требует, чтобы значение атрибута было не nil и не пустой строкой. Пример использования:
 # validate :name, :presence
 
-#   - format (при этом отдельным параметром задается регулярное выражение для формата).
+#  - format (при этом отдельным параметром задается регулярное выражение для формата).
 # Треубет соответствия значения атрибута заданному регулярному выражению. Пример:
 # validate :number, :format, /A-Z{0,3}/
 
 #  - type (третий параметр - класс атрибута). Требует соответствия значения атрибута заданному классу. Пример:
-
 # validate :station, :type, RailwayStation
 
 # Содержит инстанс-метод validate!, который запускает все проверки (валидации),
@@ -43,13 +41,16 @@ module Validation
       @validations ||= []
       @validations.push({ attribute:, validation_type:, params: })
     end
+
+    def clear
+      @validations = []
+    end
   end
 
   module InstanceMethods
     def validate!
       validations = self.class.instance_variable_get(:@validations)
       validations.each do |validation|
-        puts validation
         send("validate_#{validation[:validation_type]}", validation[:attribute], validation[:params])
       end
     end
@@ -57,7 +58,7 @@ module Validation
     def valid?
       validate!
     rescue RuntimeError => e
-      puts "Error: @#{e.message}"
+      puts "Error: #{e.message}"
       false
     else
       true
@@ -66,14 +67,14 @@ module Validation
     # rubocop:disable Style/GuardClause
     def validate_presence(variable, _)
       if variable.nil? || variable == ''
-        puts "Имя @#{variable} не может быть пустой строкой или nil"
+        puts 'Имя не может быть пустой строкой или nil'
         raise RuntimeError
       end
     end
 
     def validate_format(variable, format)
       unless variable =~ format
-        puts "Формат @#{variable} задан неверно!"
+        puts 'Формат номера задан неверно!'
         puts 'Допустимый формат: XX-XX или XXXX, где Х любая буква или цифра.'
         raise RuntimeError
       end
@@ -88,14 +89,14 @@ module Validation
 
     def validate_min_length(variable, min_length)
       if variable.length < min_length
-        puts "@#{variable} не должно быть меньше #{min_length} символов."
+        puts "Длина не должна быть меньше #{min_length} символов."
         raise RuntimeError
       end
     end
 
     def validate_max_length(variable, max_length)
       if variable.length > max_length
-        puts "@#{variable} не должно превышать #{max_length} символов."
+        puts "Длина не должна превышать #{max_length} символов."
         raise RuntimeError
       end
     end
