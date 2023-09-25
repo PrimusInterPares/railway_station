@@ -41,7 +41,19 @@ module Accessors
     end
   end
 
-  #def strong_attr_accessor(attr_name)
-
-  #end
+  def strong_attr_accessor(attr_name)
+    var_name = "@#{attr_name}".to_sym
+    # getter
+    define_method(attr_name) { instance_variable_get(var_name) }
+    # setter
+    define_method("@#{attr_name}=".to_sym) do |value|
+      var = instance_variable_get(var_name)
+      if value.instance_of?(var.class)
+        instance_variable_set(var_name, value)
+      else
+        puts 'Тип присваемого значения не совпадает с типом переменной'
+        raise RuntimeError
+      end
+    end
+  end
 end
