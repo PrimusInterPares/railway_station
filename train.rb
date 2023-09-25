@@ -24,10 +24,13 @@
 
 require_relative 'instance_counter'
 require_relative 'manufacturer'
+require_relative 'accessors'
 
 class Train
   include Manufacturer
   include InstanceCounter
+  include Accessors
+
   attr_reader :number, :route, :current_station
   attr_accessor :type
 
@@ -37,8 +40,6 @@ class Train
   START_SPEED = 0
 
   @@all_trains = []
-
-
 
   def self.find(number)
     @@all_trains.find { |train| train.number == number }
