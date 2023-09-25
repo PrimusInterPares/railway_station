@@ -63,6 +63,7 @@ module Validation
       true
     end
 
+    # rubocop:disable Style/GuardClause
     def validate_presence(variable, _)
       if variable.nil? || variable == ''
         puts "Имя @#{variable} не может быть пустой строкой или nil"
@@ -84,5 +85,20 @@ module Validation
         raise RuntimeError
       end
     end
+
+    def validate_min_length(variable, min_length)
+      if variable.length < min_length
+        puts "Имя станции не должно быть меньше #{min_length} символов."
+        raise RuntimeError
+      end
+    end
+
+    def validate_max_length(variable, max_length)
+      if variable.length > max_length
+        puts "Имя станции не должно превышать #{max_length} символов."
+        raise RuntimeError
+      end
+    end
+    # rubocop:enable Style/GuardClause
   end
 end
