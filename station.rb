@@ -14,10 +14,12 @@
 
 require_relative 'instance_counter'
 require_relative 'accessors'
+require_relative 'validation'
 
 class Station
   include InstanceCounter
   include Accessors
+  include Validation
 
   attr_accessor :name
 
@@ -32,6 +34,9 @@ class Station
 
   def initialize(name)
     @name = name.to_s
+    self.class.validate name, 'presence'
+    self.class.validate name, 'min_length', MIN_NAME_LENGTH
+    self.class.validate name, 'max_length', MAX_NAME_LENGTH
     validate!
     @train_list = []
     register_instance
@@ -63,19 +68,19 @@ class Station
 
   def validate!
     # rubocop:disable Style/ZeroLengthPredicate
-    if name.length.zero?
-      puts 'Имя станции не может быть пустым.'
-      raise RuntimeError
-    end
+    # if name.length.zero?
+    #   puts 'Имя станции не может быть пустым.'
+    #   raise RuntimeError
+    # end
     # rubocop:enable Style/ZeroLengthPredicate
-    if name.length < MIN_NAME_LENGTH
-      puts "Имя станции не должно быть меньше #{MIN_NAME_LENGTH} символов."
-      raise RuntimeError
-    end
-    if name.length > MAX_NAME_LENGTH
-      puts "Имя станции не должно превышать #{MAX_NAME_LENGTH} символов."
-      raise RuntimeError
-    end
+    # if name.length < MIN_NAME_LENGTH
+    #   puts "Имя станции не должно быть меньше #{MIN_NAME_LENGTH} символов."
+    #   raise RuntimeError
+    # end
+    # if name.length > MAX_NAME_LENGTH
+    #   puts "Имя станции не должно превышать #{MAX_NAME_LENGTH} символов."
+    #   raise RuntimeError
+    # end
     @@all_stations.each do |station|
       if station.name == name
         puts 'Станция с таким названием уже существует.'
