@@ -20,6 +20,7 @@ class Route
 
   def initialize(starting_station, terminal_station)
     @stations = [starting_station, terminal_station]
+    self.class.clear
     self.class.validate starting_station, 'presence'
     self.class.validate terminal_station, 'presence'
     register_instance

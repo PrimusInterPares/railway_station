@@ -50,6 +50,7 @@ class Train
 
   def initialize(number)
     @number = number.to_s
+    self.class.clear
     self.class.validate number, 'presence'
     self.class.validate number, 'format', NUMBER_FORMAT
     self.class.validate number, 'max_length', MAX_TRAIN_NUMBER_LENGTH

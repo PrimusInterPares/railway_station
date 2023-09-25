@@ -34,6 +34,7 @@ class Station
 
   def initialize(name)
     @name = name.to_s
+    self.class.clear
     self.class.validate name, 'presence'
     self.class.validate name, 'min_length', MIN_NAME_LENGTH
     self.class.validate name, 'max_length', MAX_NAME_LENGTH
