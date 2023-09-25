@@ -13,9 +13,11 @@
 # написать метод, который принимает блок и проходит по всем поездам на станции, передавая каждый поезд в блок.
 
 require_relative 'instance_counter'
+require_relative 'accessors'
 
 class Station
   include InstanceCounter
+  include Accessors
 
   attr_accessor :name
 

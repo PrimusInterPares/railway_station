@@ -8,9 +8,12 @@
 # Может выводить список всех станций по-порядку от начальной до конечной
 
 require_relative 'instance_counter'
+require_relative 'accessors'
 
 class Route
   include InstanceCounter
+  include Accessors
+
   attr_reader :stations
 
   def initialize(starting_station, terminal_station)
