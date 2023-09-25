@@ -64,28 +64,28 @@ class Station
 
   attr_reader :train_list
 
-  private
+  # private
 
-  def validate!
-    # rubocop:disable Style/ZeroLengthPredicate
-    # if name.length.zero?
-    #   puts 'Имя станции не может быть пустым.'
-    #   raise RuntimeError
-    # end
-    # rubocop:enable Style/ZeroLengthPredicate
-    # if name.length < MIN_NAME_LENGTH
-    #   puts "Имя станции не должно быть меньше #{MIN_NAME_LENGTH} символов."
-    #   raise RuntimeError
-    # end
-    # if name.length > MAX_NAME_LENGTH
-    #   puts "Имя станции не должно превышать #{MAX_NAME_LENGTH} символов."
-    #   raise RuntimeError
-    # end
-    @@all_stations.each do |station|
-      if station.name == name
-        puts 'Станция с таким названием уже существует.'
-        raise RuntimeError
-      end
-    end
-  end
+  # def validate!
+  #   # rubocop:disable Style/ZeroLengthPredicate
+  #   # if name.length.zero?
+  #   #   puts 'Имя станции не может быть пустым.'
+  #   #   raise RuntimeError
+  #   # end
+  #   # rubocop:enable Style/ZeroLengthPredicate
+  #   # if name.length < MIN_NAME_LENGTH
+  #   #   puts "Имя станции не должно быть меньше #{MIN_NAME_LENGTH} символов."
+  #   #   raise RuntimeError
+  #   # end
+  #   # if name.length > MAX_NAME_LENGTH
+  #   #   puts "Имя станции не должно превышать #{MAX_NAME_LENGTH} символов."
+  #   #   raise RuntimeError
+  #   # end
+  #   @@all_stations.each do |station|
+  #     if station.name == name
+  #       puts 'Станция с таким названием уже существует.'
+  #       raise RuntimeError
+  #     end
+  #   end
+  # end
 end

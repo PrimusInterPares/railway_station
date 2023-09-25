@@ -113,23 +113,23 @@ class Train
 
   private
 
-  def validate!
-    # if number !~ NUMBER_FORMAT
-    #   puts 'Формат номера задан неверно!'
-    #   puts 'Допустимый формат: XX-XX или XXXX, где Х любая буква или цифра.'
-    #   raise RuntimeError
-    # end
-    # if number.length < 4
-    #   puts 'Номер поезда должен содержать не менее 4 символов.'
-    #   raise RuntimeError
-    # end
-    @@all_trains.each do |train|
-      if train.number == number
-        puts 'Поезд с таким номером уже существует.'
-        raise RuntimeError
-      end
-    end
-  end
+  # def validate!
+  #   # if number !~ NUMBER_FORMAT
+  #   #   puts 'Формат номера задан неверно!'
+  #   #   puts 'Допустимый формат: XX-XX или XXXX, где Х любая буква или цифра.'
+  #   #   raise RuntimeError
+  #   # end
+  #   # if number.length < 4
+  #   #   puts 'Номер поезда должен содержать не менее 4 символов.'
+  #   #   raise RuntimeError
+  #   # end
+  #   @@all_trains.each do |train|
+  #     if train.number == number
+  #       puts 'Поезд с таким номером уже существует.'
+  #       raise RuntimeError
+  #     end
+  #   end
+  # end
 
   def next_station
     route.next_station(current_station) unless route.last?
