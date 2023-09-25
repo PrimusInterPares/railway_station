@@ -132,17 +132,25 @@ class Main
   end
 
   def create_route
-    print 'Введите начало маршрута: '
-    route_start = gets.chomp
+    attempt = 0
+    begin
+      print 'Введите начало маршрута: '
+      route_start = gets.chomp
 
-    print 'Введите конец маршрута: '
-    route_end = gets.chomp
+      print 'Введите конец маршрута: '
+      route_end = gets.chomp
 
-    starting_station = stations.find { |elem| elem.name == route_start }
-    terminal_station = stations.find { |elem| elem.name == route_end }
-    @route = Route.new(starting_station, terminal_station)
+      starting_station = stations.find { |elem| elem.name == route_start }
+      terminal_station = stations.find { |elem| elem.name == route_end }
+      @route = Route.new(starting_station, terminal_station)
 
-    puts 'Маршрут создан'
+      puts 'Маршрут создан'
+
+    rescue RuntimeError
+      attempt += 1
+      puts 'Попытайтесь еще раз.'
+      retry if attempt < 3
+    end
   end
 
   def add_station_into_route

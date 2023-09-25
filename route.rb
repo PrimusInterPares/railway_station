@@ -23,6 +23,7 @@ class Route
     self.class.clear
     self.class.validate starting_station, 'presence'
     self.class.validate terminal_station, 'presence'
+    validate!
     register_instance
   end
 
